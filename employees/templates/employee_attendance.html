@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: reveal 1s ease-in-out forwards;
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #2b1e0d;
+            color: #ffffff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #1d1b1b;
+        }
+
+        th {
+            background-color: #162b3d;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FF6347;
+        }
+
+        .add-exit-time {
+            background-color: #FF6347;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .add-exit-time:hover {
+            background-color: #FF4500;
+        }
+
+        .exit-time-placeholder {
+            color: #555;
+        }
+
+        #cameraFeed {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #1d1b1b;
+            border-radius: 8px;
+        }
+
+        button {
+            background-color: #FF6347;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            align-items: center;
+        }
+
+        button:hover {
+            background-color: #FF4500;
+        }
+        
+    </style>
+</head>
+<body class="reveal">
+    {% include 'navbar.html' %}
+    
+    {% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="{{ message.tags }}">{{ message.message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+    
+    <h1>Employee Attendance</h1>
+    <form id="attendanceForm">
+        {% csrf_token %}
+        <select name="employee" required>
+            <option value="" selected disabled>-- Please Select --</option>
+            {% for employee in employees %}
+                <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+            {% endfor %}
+        </select>
+        
+        <button id="addEntryButton" type="button" onclick="startCamera()" style="display: none;">Add Entry Time</button>
+    </form>
+    
+    <video id="cameraFeed" autoplay style="display:none;"></video>
+    <table border="1" id="attendance-table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendance in attendances %}
+                <tr>
+                    <td>{{ attendance.employee.name }}</td>
+                    <td>{{ attendance.employee.email }}</td>
+                    <td>{{ attendance.entry_time }}</td>
+                    <td>
+                        {% if attendance.exit_time %}
+                            {{ attendance.exit_time }}
+                        {% else %}
+                            <span class="exit-time-placeholder">Not added</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'calculate_salary' %}">Calculate Salary</a>
+                        <a href="{% url 'delete_attendance' pk=attendance.pk %}">Delete</a>
+                        <form method="post" action="{% url 'update_exit_time' pk=attendance.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="add-exit-time">Add Exit Time</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+   
+        document.querySelector('[name="employee"]').addEventListener('change', function() {
+            checkRecentAttendance(this.value);
+        });
+    
+        function checkRecentAttendance(employeeId) {
+            fetch(`/check_recent_attendance/${employeeId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    alert(data.message);
+                    document.getElementById('addEntryButton').style.display = 'none'; // Hide the button if attendance was marked within 12 hours
+                } else {
+                    document.getElementById('addEntryButton').style.display = 'block'; // Show the button if it's safe to mark attendance
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                const video = document.getElementById('cameraFeed');
+                video.srcObject = stream;
+                video.style.display = 'block';
+    
+                document.getElementById('addEntryButton').onclick = function() {
+                    captureImage();
+                };
+            })
+            .catch(error => {
+                console.error("Error accessing the camera", error);
+                alert('Camera access is required to mark attendance.');
+            });
+        }
+    
+    function captureImageAndVerify() {
+        const video = document.getElementById('cameraFeed');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        const dataURL = canvas.toDataURL('image/jpeg');
+        video.srcObject.getTracks().forEach(track => track.stop());
+        document.getElementById('cameraFeed').style.display = 'none';
+    
+        sendImageForVerification(dataURL);
+    }
+    
+    function sendImageForVerification(dataURL) {
+        const employeeId = document.querySelector('[name="employee"]').value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'verify_employee_face' %}", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                if(response.success) {
+                    alert("Face verified. Attendance marked.");
+                    // Here you can submit the form or refresh the page as needed.
+                } else {
+                    alert("Face not verified. Try again.");
+                }
+            }
+        };
+        xhr.send(JSON.stringify({imageData: dataURL, employeeId: employeeId}));
+    }
+
+    function startCamera() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                const video = document.getElementById('cameraFeed');
+                video.srcObject = stream;
+                video.style.display = 'block';
+
+                // Prepare to capture an image after a delay to allow the user to position themselves.
+                setTimeout(captureImage, 3000); // Adjust time as needed
+            })
+            .catch(error => {
+                console.error("Error accessing the camera", error);
+            });
+    }
+
+    function captureImage() {
+        const video = document.getElementById('cameraFeed');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+
+        // Convert the canvas to a data URL and close the video stream
+        const imageData = canvas.toDataURL('image/jpeg');
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.style.display = 'none';
+
+        // Call a function to handle the next steps (sending the image to the server)
+        sendImageForVerification(imageData);
+    }
+
+    function sendImageForVerification(imageData) {
+        const employeeId = document.querySelector('[name="employee"]').value; // Ensure this selector matches your form field
+        fetch("{% url 'verify_employee_face' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({
+                employeeId: employeeId,
+                imageData: imageData,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Attendance marked successfully.");
+            } else {
+                alert("Face verification failed.");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+
+</body>
+</html>

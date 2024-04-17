@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Detail</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #4b3416;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ffffff;
+        }
+
+        th {
+            background-color: #1f160b;
+        }
+
+        tr:nth-child(even) {
+            background-color: #4b3416;
+        }
+
+        tr:hover {
+            background-color: #172841;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #64FFDA;
+            text-decoration: underline;
+        }
+
+        .dedit {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <h2>Employee Detail</h2>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ employee.email }}</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>{{ employee.phone }}</td>
+        </tr>
+        <tr>
+            <th>Position</th>
+            <td>{{ employee.position }}</td>
+        </tr>
+    </table>
+    <div class="dedit">
+        <!-- Add more details as needed -->
+        <a href="{% url 'employee_edit' pk=employee.pk %}">Edit</a>
+        <a href="{% url 'employee_delete' pk=employee.pk %}">Delete</a>
+    </div>
+</body>
+
+</html>

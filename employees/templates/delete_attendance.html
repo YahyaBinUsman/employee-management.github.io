@@ -1,0 +1,19 @@
+<!-- employees/templates/delete_attendance.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Attendance</title>
+</head>
+<body>
+
+<h2>Delete Attendance</h2>
+
+<p>Are you sure you want to delete the attendance record for {{ attendance.employee.full_name }}?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+</form>
+
+</body>
+</html>

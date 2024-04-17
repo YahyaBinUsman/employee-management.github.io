@@ -1,0 +1,67 @@
+<!-- employees/templates/navbar.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar</title>
+    <style>
+        .navbar {
+        background: #4d00804d; 
+        padding: 10px;
+        color: #ffffff; 
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .navbar li {
+            display: inline-block;
+            text-align: center;
+            margin: 5px;
+            margin: 10px;
+            background-color:  #5c3c13;
+            border: 1px solid #64FFDA;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .navbar a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home_page' %}">Home</a></li>
+            <li><a href="{% url 'login'%}">Login</a></li>
+            <li><a href="{% url 'employee_list' %}">Employee List</a></li>
+            <li><a href="{% url 'all_employees'%}">All Employees</a></li>
+            <li><a href="{% url 'employee_new' %}">Add Employee</a></li>
+            <li><a href="{% url 'employee_attendance' %}">Attendance</a></li>
+            <li><a href="{% url 'leave_request' %}">Take Leave</a></li>
+            <li><a href="{% url 'leave_requests' %}">Leave Requests</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+            border-bottom: 2px solid #64FFDA;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #9b11c5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #64FFDA;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #64FFDA;
+            border-radius: 5px;
+            background-color: #0A192F;
+            color: #ffffff;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #00BFFF;
+        }
+
+        button {
+            background-color: #00BFFF;
+            color: #0A192F;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #64FFDA;
+        }
+
+        a {
+            color: #64FFDA;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #00BFFF;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h2>Leave Request</h2>
+    <div class="card">
+        <form method="post" action="{% url 'leave_request' %}">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.employee.id_for_label }}">Employee:</label>
+                    {{ form.employee }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="{{ form.leave_type.id_for_label }}">Leave Type:</label>
+                    {{ form.leave_type }}
+                </div>
+            </div>
+        
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.start_date.id_for_label }}">Start Date:</label>
+                    {{ form.start_date }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="{{ form.end_date.id_for_label }}">End Date:</label>
+                    {{ form.end_date }}
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="{{ form.reason.id_for_label }}">Reason:</label>
+                {{ form.reason }}
+            </div>
+        
+            <button type="submit">Submit Request</button>
+        </form>
+    </div>
+</body>
+</html>

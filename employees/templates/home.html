@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .reveal {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: reveal 1s ease-in-out forwards;
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        #hero-section {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(to right, #00bfff, #64FFDA);
+            color: #fff;
+        }
+
+        #made-by {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        #features-section {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(to right, #64FFDA, #FFD700);
+        }
+
+        .feature {
+            margin: 20px;
+        }
+
+        .feature i {
+            font-size: 48px;
+            color: #333;
+        }
+
+        .feature h3 {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        /* Section One */
+        #section-one {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #fff;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        /* Section Two */
+        #section-two {
+            background: linear-gradient(to right, #7FFF00, #00BFFF);
+            color: #333;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        /* Section Three */
+        #section-three {
+            background: linear-gradient(to right, #0077ff, #56ff47,rgb(255, 0, 0));
+            color: #fff;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        #contact-section {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(to right, #FFD700, #FF6347);
+            color: #fff;
+        }
+
+        .card {
+            max-width: 500px;
+            margin: auto;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+        }
+
+        .contact-left-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-left-title h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .contact-left-title hr {
+            width: 50px;
+            border: 2px solid #333;
+            margin: 10px auto;
+        }
+
+        .contact-inputs {
+            width: calc(100% - 30px);
+            margin: 10px auto;
+            padding: 15px;
+            border: 2px solid #0e65d8;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .contact-inputs::placeholder {
+            color: #999;
+        }
+
+        .contact-inputs:focus {
+            border-color: #FF6347;
+        }
+
+        .contact-inputs textarea {
+            resize: vertical;
+            min-height: 200px;
+        }
+
+        .contact-left button {
+            background-color: #FF6347;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+
+        .contact-left button:hover {
+            background-color: #FF4500;
+        }
+
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        ul{
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .cta-button {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #FF6347;
+            color: #fff;
+        }
+        
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <div id="hero-section" class="reveal">
+        <h1>Welcome to the Employee Management System</h1>
+        <p>Your journey to efficient workforce management starts here.</p>
+        <div id="made-by">MADE BY YAHYA BIN USMAN</div>
+    </div>
+
+    <div id="features-section" class="reveal">
+        <div class="feature">
+            <i class="fas fa-users"></i>
+            <h3>Manage Employees</h3>
+            <p>Effortlessly handle your workforce data with our user-friendly interface.</p>
+        </div>
+
+        <div class="feature">
+            <i class="fas fa-calendar"></i>
+            <h3>Track Attendance</h3>
+            <p>Keep a record of entry and exit times for accurate attendance tracking.</p>
+        </div>
+
+        <div class="feature">
+            <i class="fas fa-file-alt"></i>
+            <h3>Leave Requests</h3>
+            <p>Streamline the leave request process for a smooth workflow.</p>
+        </div>
+    </div>
+
+    <div id="section-one" class="reveal">
+        <h2>Explore Our Community</h2>
+        <p>Connect with the vibrant community of employees and discover the latest updates.</p>
+        <ul>
+            <li>Read success stories and achievements from our talented team.</li>
+            <li>Participate in community events and celebrations.</li>
+            <li>Share your experiences and insights with colleagues.</li>
+        </ul>
+    </div>
+    
+    <div id="section-two" class="reveal">
+        <h2>Innovation Hub</h2>
+        <p>Ignite creativity and innovation in our collaborative space. Join us in shaping the future!</p>
+        <div class="feature">
+            <i class="fas fa-lightbulb"></i>
+            <h3>Share Your Ideas</h3>
+            <p>Bring your innovative ideas to life and contribute to our success.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>Workshops &amp; Seminars</h3>
+            <p>Attend workshops and seminars to enhance your skills and knowledge.</p>
+        </div>
+    </div>
+    
+    <div id="section-three" class="reveal">
+        <h2>Employee Well-being</h2>
+        <p>Prioritize your well-being with our wellness programs. Your health matters!</p>
+        <div class="feature">
+            <i class="fas fa-dumbbell"></i>
+            <h3>Wellness Challenges</h3>
+            <p>Join wellness challenges to stay active and promote a healthy lifestyle.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-heartbeat"></i>
+            <h3>Mental Health Awareness</h3>
+            <p>Participate in activities promoting mental health awareness and support.</p>
+        </div>
+        <a href="#" class="cta-button">Learn More</a>
+    </div>
+    
+    
+    <div id="contact-section" class="reveal">
+        <h2>Contact Us</h2>
+        <p>Have questions or feedback? Reach out to us!</p>
+        <div class="card">
+            <form action="https://api.web3forms.com/submit" method="POST" class="contact-left">
+                <div class="contact-left-title">
+                    <h2>Get in touch</h2>
+                    <hr />
+                </div>
+                <input type="hidden" name="access_key" value="669f4345-f337-4267-afa0-c9dc9aa5cb9e" />
+                <input type="text" name="name" placeholder="Your Name" class="contact-inputs" required />
+                <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required />
+                <textarea name="message" placeholder="Your Message" class="contact-inputs" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Employee</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+            border-bottom: 2px solid #64FFDA;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #9b11c5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #64FFDA;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #64FFDA;
+            border-radius: 5px;
+            background-color: #0A192F;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00BFFF;
+        }
+
+        button {
+            background-color: #00BFFF;
+            color: #0A192F;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #64FFDA;
+        }
+
+        a {
+            color: #64FFDA;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #00BFFF;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Employee</h2>
+    <div class="card">
+        <form method="post" enctype="multipart/form-data" action="{% if form.instance.pk %}{% url 'employee_edit' pk=form.instance.pk %}{% else %}{% url 'employee_new' %}{% endif %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.name.id_for_label }}">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                    {{ form.first_name }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                    {{ form.last_name }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.phone.id_for_label }}">Phone</label>
+                    {{ form.phone }}
+                </div>
+                <!-- Inside your form in the HTML template -->
+<div class="form-group col-md-6">
+    <label for="{{ form.position.id_for_label }}">Position</label>
+    {{ form.position }}
+</div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="{{ form.image.id_for_label }}">Image</label>
+                    {{ form.image }}
+                </div>
+            </div>
+            <button type="submit">Save</button>
+        </form>
+        <a href="{% url 'employee_list' %}">Cancel</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

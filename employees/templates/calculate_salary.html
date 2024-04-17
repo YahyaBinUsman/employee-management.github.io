@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Salary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: reveal 1s ease-in-out forwards;
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h3 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+            border-bottom: 2px solid #64FFDA;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #2b1e0d;
+            color: #ffffff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #2b1e0d;
+            color: #64FFDA;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2b1e0d;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FF6347;
+            text-decoration: underline;
+        }
+
+        .exit-time-placeholder {
+            color: #555;
+        }
+    </style>
+</head>
+<body class="reveal">
+    {% include 'navbar.html' %}
+
+    <h3>Calculate Salary</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Total Hours</th>
+                <th>Normal Work Hours</th>
+                <th>Overtime Hours</th>
+                <th>Normal Pay</th>
+                <th>Overtime Pay</th>
+                <th>Total Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendance in attendances %}
+                <tr>
+                    <td>{{ attendance.employee }}</td>
+                    <td>{{ attendance.employee.email }}</td>
+                    <td>{{ attendance.entry_time }}</td>
+                    <td>
+                        {% if attendance.exit_time %}
+                            {{ attendance.exit_time }}
+                        {% else %}
+                            <span class="exit-time-placeholder">Not added</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ attendance.working_hours|floatformat:2 }}</td>
+                    <td>{{ attendance.normal_hours|floatformat:2 }}</td>
+                    <td>{{ attendance.overtime_hours|floatformat:2 }}</td>
+                    <td>{{ attendance.normal_pay|floatformat:2 }}</td>
+                    <td>{{ attendance.overtime_pay|floatformat:2 }}</td>
+                    <td>{{ attendance.total_pay|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

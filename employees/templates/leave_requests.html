@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Requests History</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h3 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+            border-bottom: 2px solid #64FFDA;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #4b3416;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ffffff;
+        }
+
+        th {
+            background-color: #1f160b;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html'%}
+    <h3>Leave Requests History</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leave in leave_requests %}
+                <tr>
+                    <td>{{ leave.employee.first_name }} {{ leave.employee.last_name }}</td>
+                    <td>{{ leave.leave_type }}</td>
+                    <td>{{ leave.start_date }}</td>
+                    <td>{{ leave.end_date }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td>
+                        {% if leave.status == 'Pending' %}
+                            <form method="post" action="{% url 'process_leave_status' leave.id 'approved' %}">
+                                {% csrf_token %}
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form method="post" action="{% url 'process_leave_status' leave.id 'rejected' %}">
+                                {% csrf_token %}
+                                <button type="submit">Reject</button>
+                            </form>
+                        {% else %}
+                            {{ leave.status }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

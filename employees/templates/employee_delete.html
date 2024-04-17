@@ -1,0 +1,46 @@
+<!-- employees/templates/employee_delete.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #ff3333;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #ff3333;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h2>Delete Employee</h2>
+    <p>Are you sure you want to delete {{ employee }}?</p>
+    <form method="post" action="{% url 'employee_delete' pk=employee.pk %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+    <a href="{% url 'employee_list' %}">Cancel</a>
+</body>
+</html>

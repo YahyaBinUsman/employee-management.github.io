@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Project Showcase</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: gold;
+            padding-top: 50px;
+        }
+
+        .carousel-item img {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Django Project Showcase</h1>
+        <h3 class="text-center mb-4">View and get Source code at : <a href="https://github.com/YahyaBinUsman/Techpro-Gearhub.github.io"><i class="fab fa-github"></i></a>  </h3>
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" id="carousel-inner">
+                <!-- Images will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+<br>
+   <!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Dynamically add carousel items
+        var carouselInner = document.getElementById('carousel-inner');
+        var numImages = 25; // Total number of images (129 - 105 + 1)
+        var currentIndex = 105; // Starting index
+        var interval = 3000; // Interval in milliseconds
+
+        function addCarouselItems() {
+            carouselInner.innerHTML = ''; // Clear existing items
+            for (var i = 0; i < numImages; i++) {
+                var imageIndex = currentIndex + i; // Ensure index stays within range
+                if (imageIndex > 119) {
+                    imageIndex = 105; // Reset index to 105 after reaching image 119
+                }
+                var isActive = i === 0 ? 'active' : ''; // Set first image as active
+                var imgElement = '<div class="carousel-item ' + isActive + '">' +
+                                    '<img src="website images/Screenshot (' + imageIndex + ').png" class="d-block w-100" alt="Screenshot ' + imageIndex + '">' +
+                                '</div>';
+                carouselInner.innerHTML += imgElement;
+            }
+            currentIndex++; // Move to the next set of images
+        }
+
+        function transitionImage() {
+            $('.carousel').carousel('next'); // Move to the next image
+            setTimeout(addCarouselItems, interval); // Set timeout for the next image transition
+        }
+
+        // Initial call
+        addCarouselItems();
+
+        // Auto move the carousel every 3 seconds
+        setTimeout(transitionImage, interval);
+    });
+</script>
+
+
+</body>
+</html>

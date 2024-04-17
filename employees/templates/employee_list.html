@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6347, #FFD700);
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #64FFDA;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        form {
+            text-align: center;
+            padding: 20px;
+        }
+
+        input[type="text"], button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        input[type="text"] {
+            width: 60%;
+        }
+
+        button {
+            background-color: #64FFDA;
+            color: #0A192F;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        li {
+            margin: 10px;
+            background-color: #0A192F;
+            border: 1px solid #64FFDA;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #64FFDA;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            color: #00BFFF;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .step-links a {
+            color: #64FFDA;
+            padding: 10px;
+        }
+
+        .step-links .current {
+            color: #00BFFF;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border-left: 1px solid #ddd; /* Vertical line on the left side */
+            border-right: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #1f160b; /* Darker brown for header */
+            color: #ffffff; /* White header text color */
+        }
+
+        tr {
+            background-color: #4b3416; 
+        }
+
+        a {
+            color: #3498db; /* Blue color for links */
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <h2>Employee List</h2>
+
+    <form method="get">
+        <input type="text" name="q" placeholder="Search by name or email" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Position</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>
+                        <a href="{% url 'employee_detail' pk=employee.pk %}">{{ employee }}</a>
+                    </td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>
+                        <a href="{% url 'employee_edit' pk=employee.pk %}">Edit</a>
+                        <a href="{% url 'employee_delete' pk=employee.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if employees.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ employees.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ employees.number }} of {{ employees.paginator.num_pages }}.
+            </span>
+
+            {% if employees.has_next %}
+                <a href="?page={{ employees.next_page_number }}">next</a>
+                <a href="?page={{ employees.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>

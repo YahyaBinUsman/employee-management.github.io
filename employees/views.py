@@ -76,8 +76,9 @@ def employee_detail(request, pk):
     return render(request, 'employee_detail.html', {'employee': employee})
 
 
+from .decorators import admin_required
 
-@login_required
+@admin_required
 def employee_edit(request, pk):
     employee = get_object_or_404(Employee, pk=pk)
     if request.method == "POST":
@@ -254,8 +255,9 @@ import numpy as np
 from PIL import Image
 import json
 import logging
+from .decorators import admin_required
 
-@login_required
+@admin_required
 def employee_new(request):
     if request.method == "POST":
         form = EmployeeForm(request.POST, request.FILES)

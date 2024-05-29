@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(to right, #FF6347, #FFD700);
+            background: linear-gradient(to left, #00b7ff, #a200ff);
             color: #ffffff;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -103,7 +103,14 @@
         button:hover {
             background-color: #FF4500;
         }
-        
+        #attendanceForm {
+            align-items: center;
+            text-align: center;
+        }
+        .addentry{
+            text-align: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body class="reveal">
@@ -127,8 +134,10 @@
                 <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
             {% endfor %}
         </select>
-        
+        <div class="addentry">
         <button id="addEntryButton" type="button" onclick="startCamera()" style="display: none;">Add Entry Time</button>
+    </div>
+        
     </form>
     
     <video id="cameraFeed" autoplay style="display:none;"></video>
